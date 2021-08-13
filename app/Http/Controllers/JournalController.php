@@ -21,8 +21,6 @@ class JournalController extends Controller
 			
 		}
                 
-                
-                
                 public function showJournal(Request $request)
                 {
                     //
@@ -112,5 +110,7 @@ class JournalController extends Controller
                     return view('journal.showJournal',['date_search'=>$date_search, 'objEntrys'=> $objEntrys, 'arrEntrys'=>$arrEntrys,'arrText'=>$arrText,'strPlans'=>$strPlans]);
 
                 }
+                
+                
 
 }
