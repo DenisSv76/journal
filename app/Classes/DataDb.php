@@ -4,36 +4,12 @@ namespace App\Classes;
 use Illuminate\Support\Facades\DB;
 
 class DataDb {
-    /*private $DB_USERNAME='journal'; //имя пользователя в БД
-    private $DB_SERVER_PASSWORD='sdfdgfd56!FT339'; //пароль пользователя БД
-    protected static $_instance;  //экземпляр объекта
     
-    
-    public static function getInstance() { // получить экземпляр данного класса
-        if (self::$_instance === null) { // если экземпляр данного класса  не создан
-            self::$_instance = new self;  // создаем экземпляр данного класса
-        }
-        return self::$_instance; // возвращаем экземпляр данного класса
-    }
-
-    private  function __construct() { // конструктор отрабатывает один раз при вызове DB::getInstance();
-            try {
-                $this->connect = new \PDO('mysql:host=localhost;port=8080;dbname=journal;charset=UTF8', 'journal', 'sdfdgfd56!FT339');
-              } catch (PDOException $e) {
-                print "Error!: " . $e->getMessage();
-                die();
-              }
-
-    }
-
-    private function __clone() { //запрещаем клонирование объекта модификатором private
-    }
-
-    private function __wakeup() {//запрещаем клонирование объекта модификатором private
+    public static function delEntry($id) {
+        $STH = DB::table('list_entry')->where('id', '=', $id)->delete(); 
+        //$STH->execute($data);
     }
     
-     
-    */
     public static function insertEntry($day,$id,$newtext) {
         $STH = DB::table('list_entry')->insert(['day' => $day, 'id_entry' => $id, 'entry' => $newtext]); 
         //$STH->execute($data);
@@ -76,5 +52,7 @@ class DataDb {
         $STH = DB::table('plans')->insert(['text' => $newtext]);  
         //$STH->execute($data);
     }
+    
+    
 
 }

@@ -36,6 +36,14 @@ class JournalController extends Controller
                     if ($request->filled('save_mark')) {
                         $i=1;
                         
+                        foreach ($request->all() as $key=>$val) {
+                            if (strpos($key,"delold_")!==false && $val != '') {
+                               $this->validate($request,[$key=> 'required']);
+                               $id=explode("_", $key)[1];
+                               DataDb::delEntry($id);
+                            }
+                        }
+                        
                         foreach ($request->all() as $key=>$mark) {
                             if (strpos($key,"select_")!==false) {
                                 $this->validate($request,[$key=> 'required|integer|between:0,5']);
@@ -105,6 +113,7 @@ class JournalController extends Controller
                         $Plan=new Plans($row->id,$row->text);
                         $arrTextPlans[]=trim($Plan->text);
                     }
+                   
                     $strPlans=trim(implode(PHP_EOL, $arrTextPlans));
                     //return '!!!';
                     return view('journal.showJournal',['date_search'=>$date_search, 'objEntrys'=> $objEntrys, 'arrEntrys'=>$arrEntrys,'arrText'=>$arrText,'strPlans'=>$strPlans]);

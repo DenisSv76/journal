@@ -23,6 +23,7 @@
                 <tr>
                     <td><b>Содержание</b></td>
                     <td><b>Отметка</b></td>
+                    <td>Удалить</td>
                 </tr>
                 
                 @foreach ($objEntrys as $row) 
@@ -44,24 +45,40 @@
                                 @endif
                             </select>
                         </td>
+                        <td>
+                            <input type="checkbox" id="delold_{{$row->getId()}}" name="delold_{{$row->getId()}}">
+                        </td>
                     </tr>
                 @endforeach
             </table>
         @endif
         
-
+        </br>
         <button id="save_mark" name="save_mark" value=1>Сохранить отметки</button>
         </form>
     @endsection
     @section('today')
         <h1>Новые задания:</h1>
-        <ol id="list_new_entry">
+        {{--<ol id="list_new_entry">--}}
         @if (!empty($arrEntrys)) 
-            @foreach ($arrText as $text) 
-            <li> <p>{{$text}} </p></li> 
-            @endforeach
+            <table id="list_new_entry" border="1" >
+                <tr>
+                    <td><b>№</b></td>
+                    <td><b>Содержание</b></td>
+                    <td><b>Удалить</b></td>
+                </tr>
+                @foreach ($arrText as $i=>$text) 
+                    <tr>
+                        <td>{{$i+1}}</td>
+                        <td><p id="new_entry_{{$i+1}}" name="new_entry_{{$i+1}}">{{$text}}</p></td>
+                        <td><input type="checkbox" id="delnew_{{$i+1}}" name="delnew_{{$i+1}}"></td>
+                    </tr>
+                {{--<li id="new_entry_$i+1" name="new_entry_$i+1"> <p>$text <input type="checkbox" id="delnew_$i+1" name="delnew_$i+1"></p></li> --}}
+                @endforeach
+            </table>
         @endif
-        </ol>
+        {{--</ol>--}}
+        </br>
         <button id="add_text" name="add_text">Добавить</button>
         <button id="dell_text" name="dell_text" v-on:click="dellText">Удалить</button>
         <form method="post">
