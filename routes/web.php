@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
-Route::match(['get', 'post'],'/{time?}', 'JournalController@showJournal');
+Route::match(['get', 'post'],'/', 'JournalController@showJournal');
+Route::get('/delnewentry/id_del_entry/{id}', 'JournalController@delEntry')->where(['id' => '[0-9]+']);
+
+
 
 

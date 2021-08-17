@@ -7,14 +7,15 @@ private $date;
 private $id_entry;
 private $mark;
 private $text;
+private $comment;
 
-function __construct($id=0,$day=0,$id_entry=0,$newtext='',$mark=null) {
+function __construct($id=0,$day=0,$id_entry=0,$newtext='',$mark=null,$comm='') {
 	$this->id=$id;
 	$this->date=$day;
 	$this->id_entry=$id_entry;
 	$this->mark=$mark;
 	$this->text=$newtext;
-
+        $this->comment=$comm;
 }
 
 public function createNewEntry() {}
@@ -45,6 +46,10 @@ public function getIdEntry() {
 }
 public function setIdEntry() {}
 
+public function getComm() {
+	return $this->comment;
+}
+public function setComm() {}
 
 
 

@@ -30,6 +30,13 @@ class DataDb {
         //$STH->execute($data);
     }
     
+    public static function commEntry($id,$comm) {
+        //global $conn;
+        //$data = array('id' => $id, 'mark' => $mark ); 
+        $STH = DB::table('list_entry')->where('id', $id)->update(['comment' => $comm]);
+        //$STH->execute($data);
+    }
+    
     public static function readPlans() {
         //global $conn;
         $STH = DB::table('plans')->get();

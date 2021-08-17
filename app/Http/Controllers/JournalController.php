@@ -24,23 +24,36 @@ class JournalController extends Controller
                 public function showJournal(Request $request)
                 {
                     //
-
+                   
                     //require_once "/app/Classes/Db.php";
                     //require_once "/app/Classes/Entry.php";
                     // подключаем Модель (ядро)
                     // Обработка формы, если Шаблон запущен при отправке формы.
                     // Если нажата кнопка Добавить...
                     // 
+                    
+                
+                     $oldEntrys=self::oldEntrys($request);
+                     $newEntrys=self::newEntrys($request);
+                     $strPlans=self::Plans($request);
+                    
+                    
+                    //return '!!!';
+                    return view('journal.showJournal',['date_search'=>$oldEntrys['date_search'], 'objEntrys'=> $oldEntrys['objEntrys'], 'arrEntrys'=>$newEntrys['arrEntrys'],'arrText'=>$newEntrys['arrText'],'strPlans'=>$strPlans]);
+
+                }
+                
+                private function oldEntrys($request){
                     // Блок вчерашних записей. 
 
                     if ($request->filled('save_mark')) {
                         $i=1;
                         
                         foreach ($request->all() as $key=>$val) {
-                            if (strpos($key,"delold_")!==false && $val != '') {
-                               $this->validate($request,[$key=> 'required']);
-                               $id=explode("_", $key)[1];
-                               DataDb::delEntry($id);
+                            if (strpos($key,"comm_old_")!==false && $val != '') {
+                               //$this->validate($request,[$key=> 'required']);
+                               $id=explode("comm_old_", $key)[1];
+                               DataDb::commEntry($id,$val);
                             }
                         }
                         
@@ -63,7 +76,7 @@ class JournalController extends Controller
                     $arrSelect=[];
                     $objEntrys=[];
                     foreach ($arrEntrys as $row) {
-                        $Entry=new Entry($row->id,$row->day,$row->id_entry,$row->entry,$row->mark);
+                        $Entry=new Entry($row->id,$row->day,$row->id_entry,$row->entry,$row->mark,$row->comment);
                         $objEntrys[]=$Entry;
                         if (empty($Entry->getMark())) {
                             $arrSelect[]=[0,1,2,3,4,5];
@@ -71,7 +84,11 @@ class JournalController extends Controller
                             $arrSelect[]=$Entry->getMark();
                         }
                     }
+                    $result=['date_search'=>$date_search,'objEntrys'=>$objEntrys];
+                    return $result;
+                }
                 
+                private function newEntrys($request) {
                     //Блок новых записей. 
                     if ($request->filled('save_text')) {
                         foreach ($request->all() as $key=>$newtext) {
@@ -92,7 +109,11 @@ class JournalController extends Controller
                         $Entry=new Entry($row->id,$row->day,$row->id_entry,$row->entry,$row->mark);
                         $arrText[]=$Entry->getText();
                     }
-                    
+                    $result=['arrEntrys'=>$arrEntrys,'arrText'=>$arrText];
+                    return $result;
+                }
+                
+                private function Plans($request) {
                     //Планы
                     if ($request->filled('save_plans')) {
                         $this->validate($request,['plans_'=> 'required|min:5']);
@@ -115,11 +136,15 @@ class JournalController extends Controller
                     }
                    
                     $strPlans=trim(implode(PHP_EOL, $arrTextPlans));
-                    //return '!!!';
-                    return view('journal.showJournal',['date_search'=>$date_search, 'objEntrys'=> $objEntrys, 'arrEntrys'=>$arrEntrys,'arrText'=>$arrText,'strPlans'=>$strPlans]);
-
+                    
+                    return $strPlans;
                 }
                 
-                
+                public function delEntry($id) {
+                    if (!empty($id)) {
+                        DataDb::delEntry($id);
+                        return redirect('/');
+                    }
+                }
 
 }

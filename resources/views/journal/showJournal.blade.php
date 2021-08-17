@@ -12,7 +12,8 @@
     @parent
     @section('yesterday')
 
-        <form method="get">
+        <form method="post">
+        {{ csrf_field() }}
         <h1>Записи журнала за:</h1> <input type="date" id="date_search" name="date_search" value="{{$date_search}}" onchange="this.form.submit()">
         </form>
         <form method="post">
@@ -23,7 +24,7 @@
                 <tr>
                     <td><b>Содержание</b></td>
                     <td><b>Отметка</b></td>
-                    <td>Удалить</td>
+                    <td><b>Комментарий</b></td>
                 </tr>
                 
                 @foreach ($objEntrys as $row) 
@@ -46,7 +47,7 @@
                             </select>
                         </td>
                         <td>
-                            <input type="checkbox" id="delold_{{$row->getId()}}" name="delold_{{$row->getId()}}">
+                            <input type="text" id="comm_old_{{$row->getId()}}" name="comm_old_{{$row->getId()}}" size="40" value="{{$row->getComm()}}">
                         </td>
                     </tr>
                 @endforeach
@@ -67,11 +68,11 @@
                     <td><b>Содержание</b></td>
                     <td><b>Удалить</b></td>
                 </tr>
-                @foreach ($arrText as $i=>$text) 
-                    <tr>
+                @foreach ($arrEntrys as $i=>$Entry) 
+                    <tr data-id="{{$Entry->id}}">
                         <td>{{$i+1}}</td>
-                        <td><p id="new_entry_{{$i+1}}" name="new_entry_{{$i+1}}">{{$text}}</p></td>
-                        <td><input type="checkbox" id="delnew_{{$i+1}}" name="delnew_{{$i+1}}"></td>
+                        <td><p id="new_entry_{{$i+1}}" name="new_entry_{{$i+1}}" data-id="{{$Entry->id}}">{{$Entry->entry}} </p></td>
+                        <td><input type="checkbox" id="delnew_{{$i+1}}" name="delnew_{{$i+1}}" data-id="{{$Entry->id}}" class="del_newentry"></td>
                     </tr>
                 {{--<li id="new_entry_$i+1" name="new_entry_$i+1"> <p>$text <input type="checkbox" id="delnew_$i+1" name="delnew_$i+1"></p></li> --}}
                 @endforeach
