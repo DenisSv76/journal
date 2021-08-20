@@ -7,6 +7,8 @@
             <file>file:/var/www/localhost/www/journalara/routes/web.php</file>
             <file>file:/var/www/localhost/www/journalara/resources/views/journal/showJournal.blade.php</file>
             <file>file:/var/www/localhost/www/journalara/app/Classes/DataDb.php</file>
+            <file>file:/var/www/localhost/www/journalara/resources/views/layouts/journal.blade.php</file>
+            <file>file:/var/www/localhost/www/journalara/app/Classes/Entry.php</file>
             <file>file:/var/www/localhost/www/journalara/app/Http/Controllers/JournalController.php</file>
         </group>
     </open-files>
